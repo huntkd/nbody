@@ -9,13 +9,8 @@ class NbodySimulation < Gosu::Window
     self.caption = "NBody simulation"
     @background_image = Gosu::Image.new("images/space.jpg", tileable: true)
     @planet_list = []
-    @planets = []
-    @universe_radius = []
     File.open("planets.txt").each_with_index do |line, i|
       info = line.split(" ")
-      if i == 0
-        @planets.push(info[0])
-      end
       if i == 1 
         @universe_radius = line.to_f
       end
@@ -27,7 +22,17 @@ class NbodySimulation < Gosu::Window
   end
 
   def update
-
+    @planet_list.each do |planet1|
+      @planet_list.each do |planet2|
+        if planet1 != planet2
+          planet1.force_x(planet2)
+          planet1.force_y(planet2)
+        end
+      end
+      planet1.acceleration_x()
+      planet1.acceleration_y()
+      planet1.reset_forces()
+    end
   end
 
   def draw
