@@ -20,13 +20,13 @@ class Planet
 	TIME = 25000
 
 	def force_x(planet2)
-		force = (GRAVITY_CONSTANT * planet2.mass * @mass) / ((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y))
+		force = GRAVITY_CONSTANT * (planet2.mass * @mass) / ((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y))
 		@force_x += force * ((planet2.x - @x) / Math.sqrt((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y)))
 	end
 
 	def force_y(planet2)
-		force = (GRAVITY_CONSTANT * planet2.mass * @mass) / ((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y))
-		@force_y += force * ((planet2.y - @y) / Math.sqrt((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y)))
+		force = GRAVITY_CONSTANT * (planet2.mass * @mass) / ((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y))
+		@force_y -= force * ((planet2.y - @y) / Math.sqrt((planet2.x - @x)*(planet2.x - @x) + (planet2.y - @y)*(planet2.y - @y))) 
 	end
 
 	def acceleration_x()
@@ -38,7 +38,7 @@ class Planet
 	def acceleration_y()
 		accel_y = @force_y / @mass
 		@vel_y += accel_y * TIME
-		@y += @vel_y * TIME
+		@y -= @vel_y * TIME
 	end
 
 	def reset_forces
