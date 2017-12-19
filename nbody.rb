@@ -4,19 +4,29 @@ require "./planets"
 
 class NbodySimulation < Gosu::Window
 
-  def initialize
+  def initialize()
     super(640, 640, false)
     self.caption = "NBody simulation"
     @background_image = Gosu::Image.new("images/space.jpg", tileable: true)
     @planet_list = []
-    File.open("planets.txt").each_with_index do |line, i|
+    planets_recorded = 0
+    input = ARGV
+    filename = input[0]
+    File.open("simulations/#{filename}").each_with_index do |line, i|
       info = line.split(" ")
+      if i == 0 
+        number_of_bodies = info[0].to_f
+      end
       if i == 1 
         @universe_radius = line.to_f
+      end 
+      if info[0] == nil || planets_recorded == number_of_bodies
+        break
       end
       if i > 1
-        planet = Planet.new(info[0].to_f, info[1].to_f, info[2].to_f, info[3].to_f, info[4].to_f, Gosu::Image.new("images/#{info[5]}"), @universe_radius)
-        @planet_list.push(planet)
+          planet = Planet.new(info[0].to_f, info[1].to_f, info[2].to_f, info[3].to_f, info[4].to_f, Gosu::Image.new("images/#{info[5]}"), @universe_radius)
+          @planet_list.push(planet)
+          planets_recorded += 1
       end
     end
   end
