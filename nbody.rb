@@ -24,7 +24,7 @@ class NbodySimulation < Gosu::Window
         break
       end
       if i > 1
-          planet = Planet.new(info[0].to_f, info[1].to_f, info[2].to_f, info[3].to_f, info[4].to_f, Gosu::Image.new("images/#{info[5]}"), @universe_radius)
+          planet = Planet.new(info[0].to_f, info[1].to_f, info[2].to_f, info[3].to_f, info[4].to_f, Gosu::Image.new("images/#{info[5]}"), @universe_radius, info[6].to_f, info[7].to_f)
           @planet_list.push(planet)
           planets_recorded += 1
       end
@@ -37,10 +37,14 @@ class NbodySimulation < Gosu::Window
         if planet1 != planet2
           planet1.force_x(planet2)
           planet1.force_y(planet2)
+          planet1.force_z(planet2)
+          planet1.check_collisions(planet2)
         end
       end
       planet1.acceleration_x()
       planet1.acceleration_y()
+      planet1.collide()
+      planet1.planet_size()
       planet1.reset_forces()
     end
   end
